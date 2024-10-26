@@ -97,5 +97,9 @@ class BookViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(
                 Q(bookshelves__name__icontains=topic) | Q(subjects__name__icontains=topic)
             )
+        
+        limit = self.request.GET.get('limit')
+        if limit is not None:
+            queryset = queryset.all()[:limit]
 
         return queryset.distinct()
